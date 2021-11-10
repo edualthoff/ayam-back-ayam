@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import br.flower.boot.exception.core.ApiErrorAttributes;
 
@@ -17,6 +18,7 @@ public class WebErrorConfiguration {
 	@Value("${api.sendreport.uri:Beta}")
 	private String sendReportUri;
 
+
 	/**
 	 * We override the default {@link DefaultErrorAttributes}
 	 *
@@ -25,5 +27,12 @@ public class WebErrorConfiguration {
 	@Bean
 	public ErrorAttributes errorAttributes() {
 		return new ApiErrorAttributes(currentApiVersion, sendReportUri);
+	}
+	
+	@Bean
+	DispatcherServlet dispatcherServlet () {
+	    DispatcherServlet ds = new DispatcherServlet();
+	    ds.setThrowExceptionIfNoHandlerFound(true);
+	    return ds;
 	}
 }

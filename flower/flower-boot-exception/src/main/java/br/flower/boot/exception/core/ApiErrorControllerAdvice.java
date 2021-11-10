@@ -1,5 +1,7 @@
 package br.flower.boot.exception.core;
 
+import java.util.NoSuchElementException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -11,12 +13,16 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import br.flower.boot.exception.config.ApiMessageSourceError;
 import br.flower.boot.exception.msg.ApiErrorMessage;
-import br.flower.boot.exception.type.ApiBadRequestException;
-import br.flower.boot.exception.type.ApiNotFoundException;
+import br.flower.boot.exception.type.client.ApiBadRequestException;
+import br.flower.boot.exception.type.client.ApiNotFoundException;
+import br.flower.boot.exception.type.client.ApiUnsupportedMediaType;
+import br.flower.boot.exception.type.server.ApiInternalServerError;
 
 
 
@@ -45,33 +51,109 @@ public class ApiErrorControllerAdvice {
 	public HttpServletRequest getRequest() {
 		return request;
 	}
+	
+	/* 
+	 * Error code 400 ~
+	 * 
+	 */
 
-	@ExceptionHandler({ ApiNotFoundException.class })
-	public ResponseEntity<ApiErrorMessage> handleNotFoundException(ApiNotFoundException e) {
+	/*
+	 * Exception padrao - implementado o response
+	 */	
+	@ExceptionHandler({ NoSuchElementException.class })
+	public ApiErrorMessage handleNotFoundExceptionNoSuchElementException(NoSuchElementException e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						ApiMessageSourceError.toMessage("not_found.error.code"),
+						ApiMessageSourceError.toMessage("not_found.error.msg"), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+				
+	}
+	
+	@ExceptionHandler({ NoHandlerFoundException.class })
+	public ResponseEntity<ApiErrorMessage> handleNotFoundException(NoHandlerFoundException e) {
 		return errorRequest(HttpStatus.NOT_FOUND,
 				new ApiErrorMessage(this.currentApiVersion, 
-						e.getErrorCode(),
-						e.getMessageError(), 
+						ApiMessageSourceError.toMessage("not_found.error.url.code"),
+						ApiMessageSourceError.toMessage("not_found.error.url.msg"), 
 						this.request.getRequestURI().toString(),
 						e.getMessage(), 
 						ApiMessageSourceError.toMessage("msg.padrao")
 						)
 				);
 	}
-
-	@ExceptionHandler({ ApiBadRequestException.class })
-	public ResponseEntity<ApiErrorMessage> handleBadRequestException(ApiBadRequestException e) {
-		return errorRequest(HttpStatus.BAD_REQUEST,
+	
+	@ExceptionHandler({ NullPointerException.class })
+	public ResponseEntity<ApiErrorMessage> handleNotFoundExceptionNullPointerException(NullPointerException e) {
+		return errorRequest(HttpStatus.NOT_FOUND,
 				new ApiErrorMessage(this.currentApiVersion, 
-						e.getErrorCode(),
-						e.getMessageError(), 
+						ApiMessageSourceError.toMessage("not_found.error.url.code"),
+						ApiMessageSourceError.toMessage("not_found.error.url.msg"), 
 						this.request.getRequestURI().toString(),
 						e.getMessage(), 
 						ApiMessageSourceError.toMessage("msg.padrao")
 						)
 				);
 	}
+	
+	/*
+	 * Exception padrao - implementado o response - Fim
+	 */	
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	@ExceptionHandler({ ApiNotFoundException.class })
+	public ApiErrorMessage handleNotFoundException(ApiNotFoundException e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						e.getErrorCode(),
+						e.getMessageError(), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
+	
+	@ResponseStatus(code = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+	@ExceptionHandler({ ApiUnsupportedMediaType.class })
+	public ApiErrorMessage handleNotFoundExceptionApiUnsupportedMediaType(ApiUnsupportedMediaType e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						e.getErrorCode(),
+						e.getMessageError(), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
+	
 
+	/*
+	 * Error 500 ~
+	 */
+
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler({ ApiBadRequestException.class })
+	public ApiErrorMessage handleBadRequestException(ApiBadRequestException e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						e.getErrorCode(),
+						e.getMessageError(), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
+
+
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler({ ApiInternalServerError.class })
+	public ApiErrorMessage handleApiInternalServerError(ApiInternalServerError e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						e.getErrorCode(),
+						e.getMessageError(), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
 	
 	/*
 	 * @ExceptionHandler({ApiServiceException.class}) public
@@ -84,4 +166,5 @@ public class ApiErrorControllerAdvice {
 		log.error("Exception : ", error, status);
 		return new ResponseEntity<>(error, status);
 	}
+
 }
