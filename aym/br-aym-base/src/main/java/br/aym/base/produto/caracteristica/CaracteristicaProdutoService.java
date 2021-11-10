@@ -14,4 +14,6 @@ public interface CaracteristicaProdutoService extends CrudService<Caracteristica
 	Page<CaracteristicaProduto> buscarPorNomePagAutoComplete(int page, int size, String keywords, String sort, Boolean status);
 	CaracteristicaProduto buscarTodosOsProdutosPorNomeDaCaracteristica(String nome);
 	List<CaracteristicaProduto> buscarTodosAtivos();
+	
+	
 }

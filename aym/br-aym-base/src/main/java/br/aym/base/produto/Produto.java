@@ -1,7 +1,6 @@
 package br.aym.base.produto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -70,7 +69,7 @@ public class Produto extends BaseImplementsSQL implements Serializable {
 		joinColumns = @JoinColumn(name = "produto_id_tb_produto", referencedColumnName = "produto_id"), inverseJoinColumns =
 			@JoinColumn(name = "caracteristica_id_tb_caracteriscas", referencedColumnName = "caracteristica_id"))
 	//@JsonIgnoreProperties(value = "listProduto")
-	private Set<CaracteristicaProduto> listCaracteristicaProduto = new HashSet<>();
+	private Set<CaracteristicaProduto> listCaracteristicaProduto;
 
 	public Produto() {
 		super();

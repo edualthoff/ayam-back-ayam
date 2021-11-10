@@ -49,13 +49,15 @@ public class UploadFile {
 	private boolean remove;
 	
 	@Column(name = "date_created", updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX") 
 	@JsonProperty("dateCreated")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") 
+	//@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private OffsetDateTime dateCreated;
 	@Column(name = "date_modified", updatable = true)
 	@JsonProperty("dateModified")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ") 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX") 
+	//@Temporal(TemporalType.TIMESTAMP)
 	@LastModifiedDate
 	private OffsetDateTime dateModified;
 	

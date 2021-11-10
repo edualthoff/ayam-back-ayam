@@ -2,7 +2,9 @@ package br.aym.base.produto.caracteristica.adm;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +49,10 @@ public class CaracteristicaControllerAdm {
 			@RequestParam(name = "size", defaultValue = "10") int size){
 	    return this.caracteristicaProdutoService.buscarAllPagination(page, size);
 	 
+	}
+	
+	@DeleteMapping("/{idCaracteristica}")
+	public void excluir(@PathVariable("idCaracteristica") Long idCaracteristica) {
+		this.caracteristicaProdutoService.delete(idCaracteristica);
 	}
 }

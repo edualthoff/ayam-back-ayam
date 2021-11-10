@@ -47,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.ignoring().antMatchers("/api/rest/**")
 			.antMatchers("/api/upload/**").antMatchers("/caracteristica/**")
 			.antMatchers("/adm/caracteristica/**")
+			.antMatchers("/adm/produto/**")
+			.antMatchers("/adm/informativo/**")
 			.antMatchers("/informativo/**")
 			.antMatchers("/produto/**").antMatchers("/error/**");
     }

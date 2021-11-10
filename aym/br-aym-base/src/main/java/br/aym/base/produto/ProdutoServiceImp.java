@@ -2,6 +2,7 @@ package br.aym.base.produto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import br.aym.base.file.FileInfo;
 import br.aym.base.file.FilesDirectoryEnum;
 import br.aym.base.file.FilesStorageService;
+import br.aym.base.produto.caracteristica.CaracteristicaProduto;
 import br.aym.base.upload.UploadFile;
+import br.flower.boot.exception.config.ApiMessageSourceError;
+import br.flower.boot.exception.type.client.ApiNotFoundException;
 
 
 @Repository
@@ -99,22 +103,35 @@ public class ProdutoServiceImp implements ProdutoService {
 	@Transactional
 	@Override
 	public Page<Produto> buscarPorNomePagAutoComplete(int page, int size, String keywords, String sort, 
-			boolean getAll, boolean getFile) {
+			boolean getAll, boolean getFile, Boolean status) {
 		if (sort == null) {
 			sort = "asc";
 		}		
 		PageRequest pageRequest = PageRequest.of(page, size, Direction.fromString(sort), "nome");
 		Page<Produto> pageResult = null;
-		if(getAll == true && getFile == false) {
-			pageResult = produtoRepository.getByNomeContainingIgnoreCase(keywords, pageRequest);
-		}
-		if(getAll == false && getFile == true) {
-			pageResult = produtoRepository.readByNomeContainingIgnoreCase(keywords, pageRequest);
-		}		
-		if(getAll == false && getFile == false) {
-			pageResult = produtoRepository.findByNomeContainingIgnoreCase(keywords, pageRequest);
+		if(getAll == true) {
+			pageResult = produtoRepository.findPorStatusAndNomeContaingNullAllValueReturnAllCaracteristicaAndFiles
+					(status, keywords, pageRequest);
+		} else if(getAll == false && getFile == true) {
+			pageResult = produtoRepository.findPorStatusAndNomeContaingNullAllValueReturnAllFiles
+					(status, keywords, pageRequest);
+		} else if(getAll == false && getFile == false) {
+			pageResult = produtoRepository.findPorStatusAndNomeContaingNullAllValue(status, keywords, pageRequest);
 		}
 		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+	}
+	
+
+	@Override
+	public Page<Produto> buscarPorCaracteristica(
+			Boolean status, List<Long> caracteristicaProduto, int page, int size, String sort) {
+		PageRequest pageRequest = PageRequest.of(page, size, Direction.fromString(sort), "nome");
+		Page<Produto> pageResult = this.produtoRepository.findPorStatusCaracteristicaProdutoNullAllValue
+				(status, caracteristicaProduto, pageRequest);
+		if(pageResult.getTotalElements() == 0 ) {
+			throw new ApiNotFoundException(ApiMessageSourceError.toMessage("not_found.error.list.msg"));
+		}
+		return pageResult;
 	}
 	
 	/**

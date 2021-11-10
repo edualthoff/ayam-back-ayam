@@ -85,4 +85,10 @@ public class CaracteristicaProduto implements Serializable {
 		this.nome = nome;
 		this.tipo = tipo;
 	}
+	
+	public CaracteristicaProduto(Long id, CaracteristicaProdutoEnum tipo) {
+		super();
+		this.id = id;
+		this.tipo = tipo;
+	}
 }
