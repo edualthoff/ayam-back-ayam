@@ -9,7 +9,11 @@ import br.flower.boot.exception.config.ApiMessageSourceError;
 import br.flower.boot.exception.msg.ApiErrorCode;
 
 
-
+/**
+ * Utilizado para recurso não encontrado
+ * @author edu
+ *
+ */
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
 public class ApiNotFoundException  extends RuntimeException implements ApiErrorCode {
 	private static final long serialVersionUID = -6588825267056042318L;

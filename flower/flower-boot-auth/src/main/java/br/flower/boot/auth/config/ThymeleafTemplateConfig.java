@@ -1,4 +1,4 @@
-package br.flower.boot.auth.mail.config;
+package br.flower.boot.auth.config;
 
 import java.nio.charset.StandardCharsets;
 
@@ -24,10 +24,13 @@ public class ThymeleafTemplateConfig {
         return templateEngine;
     }
 
+    /*
+     * Carrega os templates HTML da pasta email 
+     */
     @Bean
     public ClassLoaderTemplateResolver emailHtmlTemplateResolver(){
         ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
-        emailTemplateResolver.setPrefix("/templates/email");
+        emailTemplateResolver.setPrefix("/templates/email/");
         emailTemplateResolver.setSuffix(".html");
         emailTemplateResolver.setTemplateMode(TemplateMode.HTML);
         emailTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());

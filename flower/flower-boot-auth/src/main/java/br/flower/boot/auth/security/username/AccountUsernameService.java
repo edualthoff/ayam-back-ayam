@@ -8,5 +8,7 @@ import br.flower.boot.auth.user.role.UserRoleEnum;
 public interface AccountUsernameService extends Serializable{
 
 	Usuario login(String username, String password);
-	Usuario registerUser(Usuario user, UserRoleEnum userRoleEnum);
+	UsuarioMensagemDto registerUser(Usuario user, UserRoleEnum userRoleEnum);
+	UsuarioMensagemDto registerUser(Usuario user);
+
 }

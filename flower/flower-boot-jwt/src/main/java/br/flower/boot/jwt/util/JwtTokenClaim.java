@@ -30,5 +30,4 @@ public enum JwtTokenClaim {
 	public String getClaim() {
 		return claim;
 	}
-	
 }

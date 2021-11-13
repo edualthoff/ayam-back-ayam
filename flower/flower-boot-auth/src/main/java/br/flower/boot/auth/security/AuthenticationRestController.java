@@ -1,7 +1,6 @@
 package br.flower.boot.auth.security;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +14,7 @@ import br.flower.boot.auth.security.core.provider.AuthenticationProvider;
 import br.flower.boot.auth.security.core.provider.AuthenticationProviderFacade;
 import br.flower.boot.auth.security.core.provider.GrantTypeNameEnum;
 import br.flower.boot.auth.security.username.AccountUsernameService;
+import br.flower.boot.auth.security.username.UsuarioMensagemDto;
 import br.flower.boot.auth.socialmedia.SocialMediaNameEnum;
 import br.flower.boot.auth.user.Usuario;
 import br.flower.boot.auth.user.role.UserRoleEnum;
@@ -32,12 +32,9 @@ public class AuthenticationRestController {
 			@RequestParam(name = "password", required = false) String password,
 			@RequestParam(name = "token_acess", required = false) String tokenAcess,
 			@RequestParam(name = "token_origin", required = false) SocialMediaNameEnum tokenOrigin,
-			//@PathParam("token_origem") String tokenOrigem,
-			@RequestParam("origem") String origemAcess,
 			@RequestParam(name = "grant_type", required = true) GrantTypeNameEnum grantType) {
 	
-		ResponseAuthDto resp =  new ResponseAuthDto();
-		
+		ResponseAuthDto resp =  new ResponseAuthDto();		
 		switch (grantType) {
 			case AUTHORIZATIONCODE:
 				//System.out.println("Account "+username+" "+grantType+" "+origemAcess);
@@ -53,10 +50,16 @@ public class AuthenticationRestController {
 		return resp;
 	}
 
-	@PostMapping("/usuario/{tipomotorista}")
-	public void creatUser(@Valid @RequestBody Usuario usuario, @PathParam("tipomotorista") UserRoleEnum tipomotorista ) {
-		this.accountUsernameService.registerUser(usuario, tipomotorista);
-		
+	/**
+	 * Cadastro de usuario - Caso o tipo for null cadastra usuario Padrao
+	 * @param usuario
+	 * @param tipoUser
+	 * @return
+	 */
+	@PostMapping("/usuario")
+	public UsuarioMensagemDto creatUser(@Valid @RequestBody Usuario usuario, 
+			@RequestParam(value = "tipo", required = false) UserRoleEnum tipoUser ) {
+		return this.accountUsernameService.registerUser(usuario, tipoUser);		
 	}
 	
 	@PostMapping("/refresh")

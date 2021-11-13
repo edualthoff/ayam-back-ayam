@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import br.flower.boot.auth.security.socialmedia.facebook.FacebookSocialMedia;
 import br.flower.boot.auth.security.socialmedia.google.GoogleSocialMedia;
 import br.flower.boot.auth.socialmedia.SocialMediaNameEnum;
+import br.flower.boot.exception.config.ApiMessageSourceError;
+import br.flower.boot.exception.type.ApiBadRequestException;
 
 @Service
 public class SocialMediaService implements Serializable{
@@ -20,9 +22,14 @@ public class SocialMediaService implements Serializable{
 			//SocialMediaValidade socialMediaValidade = new FacebookSocialMedia(tokenMediaSocial)
 			return new FacebookSocialMedia.FacebookSocialMediaBuild().build(tokenMediaSocial);
 			//break;
+		/* Desabilitado 
 		case GOOGLE:
-			return new GoogleSocialMedia.GoogleSocialMediaBuild().build(tokenMediaSocial);
-		}
-		return null;
+			return new GoogleSocialMedia.GoogleSocialMediaBuild().build(tokenMediaSocial);*/
+		default:
+			break;
+		} 
+		throw new ApiBadRequestException(
+				ApiMessageSourceError.toMessage("bad_request.erro.grant_type.code"),
+				ApiMessageSourceError.toMessage("bad_request.erro.grant_type.msg"));
 	}
 }

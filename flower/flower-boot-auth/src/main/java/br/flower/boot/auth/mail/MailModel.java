@@ -1,14 +1,14 @@
-package br.flower.boot.auth.mail.model;
+package br.flower.boot.auth.mail;
 
 import java.util.Map;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Builder
+@Data
 public class MailModel {
 
     @Getter

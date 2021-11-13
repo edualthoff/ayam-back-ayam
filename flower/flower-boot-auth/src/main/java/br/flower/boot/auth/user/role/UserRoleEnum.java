@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum UserRoleEnum {
 
-	MOTORISTA("motorista", "Usuario que possui carro" ),
-	LOCATARIO("locatario", "Usuario que loca carro"),
-	LOCADOR("locador", "Usuario que aluga carro"),
+	ADMINISTRADOR("adminitrador", "Adminitrador do sistema"),
 	USER("user", "Usuario simples");
 	
 	private String userRoleName;

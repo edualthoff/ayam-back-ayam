@@ -3,6 +3,8 @@ package br.flower.boot.exception.core;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +60,7 @@ public class ApiErrorControllerAdvice {
 	 */
 
 	/*
-	 * Exception padrao - implementado o response
+	 * Exception(Error) padrao do JAVA - Spring - implementado o response
 	 */	
 	@ExceptionHandler({ NoSuchElementException.class })
 	public ApiErrorMessage handleNotFoundExceptionNoSuchElementException(NoSuchElementException e) {
@@ -96,11 +98,22 @@ public class ApiErrorControllerAdvice {
 						ApiMessageSourceError.toMessage("msg.padrao")
 						)
 				);
-	}
+	}	
 	
-	/*
-	 * Exception padrao - implementado o response - Fim
-	 */	
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	@ExceptionHandler({ ConstraintViolationException.class })
+	public ApiErrorMessage handleConstraintViolationException(ConstraintViolationException e) {
+		ConstraintViolation<?> value = e.getConstraintViolations().iterator().next();
+		return new ApiErrorMessage(this.currentApiVersion, 
+						ApiMessageSourceError.toMessage("not_found.error.code"),
+				        ApiMessageSourceError.toMessage("not_found.error.msg"),
+						this.request.getRequestURI().toString(),
+						value.getMessage()+" "+value.getPropertyPath(),
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
+	/* Fim */	
+	
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler({ ApiNotFoundException.class })
 	public ApiErrorMessage handleNotFoundException(ApiNotFoundException e) {

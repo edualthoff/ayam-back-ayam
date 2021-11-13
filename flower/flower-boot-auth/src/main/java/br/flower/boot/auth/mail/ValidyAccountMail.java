@@ -3,8 +3,6 @@ package br.flower.boot.auth.mail;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.flower.boot.auth.mail.model.MailModel;
-
 
 /**
  * Implementa a @imterface {@link MailTemplateMount} 
@@ -17,7 +15,7 @@ import br.flower.boot.auth.mail.model.MailModel;
 public class ValidyAccountMail implements MailTemplateMount {
 	private static final long serialVersionUID = -4907534000098474780L;
 
-	private final static String assunto = "Validar conta Carro Lucrativo";
+	private final static String ASSUNTO = "Verificar conta Ayam Stone";
 	private String emailUser;
 	private String linkButtonValidyEmail;
 	
@@ -33,7 +31,7 @@ public class ValidyAccountMail implements MailTemplateMount {
 	public MailModel mount() {
 		Map<String, Object> set = new HashMap<>();
 		set.put("buttonValidy", linkButtonValidyEmail);
-		MailModel mailModel = new MailModel(emailUser, assunto,
+		MailModel mailModel = new MailModel(emailUser, ASSUNTO,
 				new MailModel.HtmlTemplate("ativar-conta", set));
 		
 		return mailModel;

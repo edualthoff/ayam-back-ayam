@@ -40,5 +40,4 @@ public class CustomApiErrorControllerAdvice extends ApiErrorControllerAdvice {
 				);
 	}
 	
-	
 }

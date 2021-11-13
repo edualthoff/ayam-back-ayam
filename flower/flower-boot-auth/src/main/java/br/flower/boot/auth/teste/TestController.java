@@ -1,4 +1,4 @@
-package br.flower.boot.auth;
+package br.flower.boot.auth.teste;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
 	
-	@PostMapping
+	@PostMapping(path = "")
 	public String test() {
 		return "oi";
 	}

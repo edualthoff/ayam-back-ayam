@@ -17,7 +17,7 @@ import br.flower.boot.auth.security.core.ResponseAuthDto;
 import br.flower.boot.auth.security.jwt.JwtTokenDto;
 import br.flower.boot.auth.security.jwt.TokenManage;
 import br.flower.boot.auth.security.socialmedia.AccountLoginSocialMedia;
-import br.flower.boot.auth.security.username.AccountUsername;
+import br.flower.boot.auth.security.username.AccountUsernameService;
 import br.flower.boot.auth.session.client.ClientSessionDetails;
 import br.flower.boot.auth.session.client.ClientSessionDetailsService;
 import br.flower.boot.auth.user.Usuario;
@@ -30,27 +30,28 @@ public class AuthenticationProviderFacade {
 	private static final Logger log = LoggerFactory.getLogger(AuthenticationProviderFacade.class);
 
 	@Autowired
-	private AccountUsername accountUsername;
+	private AccountUsernameService accountUsername;
 	@Autowired
 	private AccountLoginSocialMedia accountLoginSocialMedia;
-	@Autowired 
+	@Autowired
 	private TokenManage tokenManage;
 	@Autowired
 	private SecurityClientResourceContext securityClientResourceContext;
 	@Autowired
 	private HttpServletResponse httpServletResponse;
-	
+
 	@Autowired
 	private UserAgentAnalyzerConfig userAgentAnalyzerConfig;
 	@Autowired
 	private ClientSessionDetailsService ClientSessionDetailsService;
-	
+
 	public ResponseAuthDto grantType(AuthenticationProvider authenticationProvider) {
 		Usuario user = new Usuario();
 		switch (authenticationProvider.getGrantType()) {
-		
+
 		case AUTHORIZATIONMEDIASOCIAL: {
-			user = accountLoginSocialMedia.login(authenticationProvider.getTokenOrigem(), authenticationProvider.getTokenAcess());
+			user = accountLoginSocialMedia.login(authenticationProvider.getTokenOrigem(),
+					authenticationProvider.getTokenAcess());
 			break;
 		}
 		case AUTHORIZATIONCODE: {
@@ -59,34 +60,36 @@ public class AuthenticationProviderFacade {
 		}
 		default:
 			log.error("Grant Type informado errado");
-			throw new ApiBadRequestException(ApiMessageSourceError.toMessage("bad_request.erro.grant_type.code"), ApiMessageSourceError.toMessage("bad_request.erro.grant_type.msg"));
+			throw new ApiBadRequestException(ApiMessageSourceError.toMessage("bad_request.erro.grant_type.code"),
+					ApiMessageSourceError.toMessage("bad_request.erro.grant_type.msg"));
 		}
 		return this.createdTokenAndSessionLogin(user);
 	}
-	
+
 	private ResponseAuthDto createdTokenAndSessionLogin(Usuario user) {
 		UUID sessionId = UUID.randomUUID();
 		ResponseAuthDto response = tokenManage.gerarToken(user, sessionId);
-		//System.out.println("token "+ response.getToken());
-		//System.out.println("refresh "+response.getRefreshTorkn());
+		// System.out.println("token "+ response.getToken());
+		// System.out.println("refresh "+response.getRefreshTorkn());
 		JwtTokenDto jwt = tokenManage.deserializeToken(response.getRefreshTorkn());
 		this.createSession(sessionId, jwt, user);
-		
+
 		return response;
 	}
-	
+
 	/**
 	 * Refatorar - Melhorar a parte de criação de sessao
+	 * 
 	 * @param sessionId
 	 * @param jwt
 	 * @param user
 	 */
 	private void createSession(UUID sessionId, JwtTokenDto jwt, Usuario user) {
 		UserAgent userAgent = userAgentAnalyzerConfig.userAgentParse(httpServletResponse.getHeader("User-Agent"));
-		
+
 		ClientResource oa = new ClientResource();
 		oa.setClientId(securityClientResourceContext.getContext().get().getClientId());
-		
+
 		ClientSessionDetails clientSessionDetails = new ClientSessionDetails(sessionId, jwt.getJti(), user, oa,
 				new Date(jwt.getIat()), new Date(jwt.getExp()));
 		clientSessionDetails.setDevicetype(userAgent.getValue(UserAgent.DEVICE_CLASS));

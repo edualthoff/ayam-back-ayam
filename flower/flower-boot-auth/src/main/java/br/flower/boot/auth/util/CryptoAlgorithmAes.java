@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-public class CryptoUtil {
+public class CryptoAlgorithmAes {
 
 	public String encrypt(String key, String str) throws Exception {
 		SecretKey keySecurity = new SecretKeySpec(key.getBytes(), "AES");

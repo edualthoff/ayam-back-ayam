@@ -54,7 +54,7 @@ public class ApiErrorMessage implements Serializable{
 		this.domain = domain;
 
 	}
-	public static ApiErrorMessage fromDefaultAttributeMap(final String apiVersion,
+	public static ApiErrorMessage fromDefaultAttributeMap(final String apiVersion, final String sendReportUri,
 			final Map<String, Object> defaultErrorAttributes) {
 		// original attribute values are documented in
 		// org.springframework.boot.web.servlet.error.DefaultErrorAttributes

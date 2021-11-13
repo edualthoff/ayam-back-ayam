@@ -14,7 +14,7 @@ import br.flower.boot.auth.security.jwt.JwtTokenDto;
 import br.flower.boot.auth.security.jwt.JwtTokenUtil;
 
 @Component
-public class TokenAuthenticationProvider implements TokeneAuthetntication {
+public class TokenAuthenticationProvider implements TokeneAuthentication {
 	private static final long serialVersionUID = -2001850756896211365L;
 
 	@Autowired

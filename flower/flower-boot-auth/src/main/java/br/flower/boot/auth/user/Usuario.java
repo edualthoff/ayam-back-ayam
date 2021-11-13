@@ -14,11 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import br.flower.boot.auth.base.BaseImplementsSQL;
-import br.flower.boot.auth.person.Person;
+import br.flower.boot.auth.pessoa.Pessoa;
 import br.flower.boot.auth.user.role.UserAuthRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,18 +36,20 @@ public class Usuario extends BaseImplementsSQL {
     @GeneratedValue(generator = "UUIDGenerator")
 	@Column(name = "user_id")
 	private UUID userId;
+	@NotBlank
 	@Column(name = "username")
 	private String username;
 	@Column(name = "password")
+	@NotBlank
 	private String password;
 	@Column(name = "verificado")
 	private boolean verificado;
 	@Column(name = "disabled")
 	private boolean disabled;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pessoa_id_cl_pessoa", columnDefinition = "pessoa_id")
-	private Person person;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "pessoa_id_tb_pessoa", columnDefinition = "pessoa_id")
+	private Pessoa pessoa;
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "auth_usuario_has_auth_role", joinColumns =  @JoinColumn(name = "user_id_auth_usuario"),
 	inverseJoinColumns = @JoinColumn(name = "role_name_id_auth_role"))
 	private List<UserAuthRole> userAuthRole;

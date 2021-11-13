@@ -46,5 +46,4 @@ public class JwtTokenDto implements Serializable{
 		super();
 	}
 	
-	
 }

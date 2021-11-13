@@ -21,7 +21,7 @@ public class AppConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(clientOauthTokenInterceptor).addPathPatterns("/oauth/**");
+		registry.addInterceptor(clientOauthTokenInterceptor).addPathPatterns("/oauth/**").addPathPatterns("/teste/");
 	}
 	
 	

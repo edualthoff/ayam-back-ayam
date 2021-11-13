@@ -1,8 +1,10 @@
 
+server:
+  port: 8282
 ## Api Mercadolivre service
 
 ## Server Properties
-
+## server.error.whitelabel.enabled: false
 logging:
   level:
     org:
@@ -42,7 +44,6 @@ spring:
       port: 465
       fallback: false
       class: javax.net.ssl.SSLSocketFactory
- jpa.open-in-view: false
  jpa:
   # Show or not log for each sql query
   show-sql: true
@@ -50,6 +51,9 @@ spring:
   properties:
    # Hibernate Properties
    hibernate:
+    event:
+     merge:
+      entity_copy_observer: allow
     dialect: org.hibernate.dialect.PostgreSQLDialect
     # Hibernate ddl auto (create, create-drop, validate, update)
     ddl-auto: update
@@ -57,11 +61,15 @@ spring:
     format_sql: false
 # Banco de dados APP
  datasource:
-  url: jdbc:postgresql://localhost:5435/md_carrolucrativo?currentSchema=public&useSSL=false
+  url: jdbc:postgresql://localhost:5435/bd_ayam?currentSchema=public&useSSL=false
   username: postgres
   password: admin
   driverClassName: org.postgresql.Driver
   initialization-mode: always
+  
+ jackson: 
+  mapper: 
+   accept-case-insensitive-enums: true
 
  #date:
   #format:

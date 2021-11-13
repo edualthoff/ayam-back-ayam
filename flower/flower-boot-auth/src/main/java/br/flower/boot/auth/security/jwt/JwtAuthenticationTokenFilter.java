@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.flower.boot.auth.security.core.provider.TokeneAuthetntication;
+import br.flower.boot.auth.security.core.provider.TokeneAuthentication;
 
 
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 
 	@Autowired
-	private TokeneAuthetntication tokeneAuthetntication;
+	private TokeneAuthentication tokeneAuthetntication;
 
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-
 		String token = resolveToken((HttpServletRequest) request);
 		
 		if (token != null && tokeneAuthetntication.validateToken(token)) {

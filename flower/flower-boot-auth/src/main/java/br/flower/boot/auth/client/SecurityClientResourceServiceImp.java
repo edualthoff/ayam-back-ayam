@@ -35,7 +35,8 @@ public class SecurityClientResourceServiceImp implements SecurityClientResourceS
 		}
 		oauthClientResource = oauthClientResourceService.getByClientId(UUID.fromString(new String(Base64.getDecoder().decode(clintBase64))));
 		if(oauthClientResource == null) {
-			throw new ClientResourceBadAuthenticationException("Client não existe ou disabilitado");
+			throw new ClientResourceBadAuthenticationException("Client não existe ou desativado");
 		}
 	}
+	
 }

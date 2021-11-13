@@ -76,7 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
 	public void configure(WebSecurity http) throws Exception {
 		http
-			.ignoring().antMatchers("/api/rest/**");
+			.ignoring().antMatchers("/api/rest/**")
+			.antMatchers("/teste2/**")
+			.antMatchers("/error/**");
     }
     
     @Bean

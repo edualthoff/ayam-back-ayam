@@ -74,6 +74,7 @@ public class JwtTokenUtil implements Serializable {
 		}
 		return null;
 	}
+	
 
 	// Retorna true caso a assinatura do token for valida
 	public boolean validateTokenAndExpire(String token) {

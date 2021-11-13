@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import br.flower.boot.auth.mail.model.MailModel;
-
 /**
- * Enviar email @async 
+ * Class para Enviar email @async 
  * @author edu
  *
  */
@@ -30,11 +28,10 @@ public class MailService {
     private JavaMailSender emailSender;
     
 	@Autowired()
-	//@Qualifier("emailSpringTemplateEngine")
 	private SpringTemplateEngine springTemplateEngine;
 	
 	
-	/**
+	/** Envio de email com template HTML Thymeleaf
 	 * Template - spring boot thymeleaf
 	 * @param mailTemplateMount
 	 */
@@ -48,12 +45,17 @@ public class MailService {
 			helper = new MimeMessageHelper(message,
 			        MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 			        StandardCharsets.UTF_8.name());
-	        String html = getHtmlContent(mail);
+	        String htmlTemplate = getHtmlContent(mail);
 
+	        System.out.println("email send "+mail.toString());
+	        // endereco de envio
+	        // helper.setFrom(mail.getFrom());
+	        // endereco de destino
 	        helper.setTo(mail.getTo());
-	        helper.setFrom(mail.getFrom());
+	        // assunto do email
 	        helper.setSubject(mail.getSubject());
-	        helper.setText(html, true);
+	        // corpo do email
+	        helper.setText(htmlTemplate, true);
 	        emailSender.send(message);
 	        
 		} catch (MessagingException e) {

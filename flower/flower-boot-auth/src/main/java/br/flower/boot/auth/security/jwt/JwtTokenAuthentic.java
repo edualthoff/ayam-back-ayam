@@ -34,8 +34,8 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 		Map<String, Object> claims = new HashMap<>();
 		/** Claims util para a api */
 		claims.put(CLAIM_KEY_USERNAME, usuario.getUsername());
-		claims.put(CLAIM_KEY_NAME, usuario.getPerson().getNomeCompleto());
-		claims.put(CLAIM_KEY_GIVEN_NAME, usuario.getPerson().getNome());
+		claims.put(CLAIM_KEY_NAME, usuario.getPessoa().getSobrenome());
+		claims.put(CLAIM_KEY_GIVEN_NAME, usuario.getPessoa().getNome());
 		claims.put(CLAIM_KEY_VERIFIED, usuario.isVerificado());
 		// Verificar - Corrigir processo role
 		claims.put(CLAIM_KEY_ROLE_ACESS, mapearRoles());

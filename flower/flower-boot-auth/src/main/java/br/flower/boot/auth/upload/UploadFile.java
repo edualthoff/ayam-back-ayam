@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @Entity
-@Table(name = "upload_file")
+@Table(name = "tb_upload_img")
 public class UploadFile extends BaseImplementsSQL {
 	private static final long serialVersionUID = -5671502251030948745L;
 

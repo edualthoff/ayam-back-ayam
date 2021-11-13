@@ -18,8 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @class Abstract
  * 
  * Base para inserir, alterar, remover um objeto no Postgree
- * - Para Multi Tenant
- * - Contem  @parm date_created, @parm date_modified, @parm tenantID
+ * - Contem  @parm date_created, @parm date_modified
  * 
  * @author edu
  *

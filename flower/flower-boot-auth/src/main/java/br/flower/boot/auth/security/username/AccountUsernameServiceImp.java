@@ -1,29 +1,37 @@
 package br.flower.boot.auth.security.username;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.flower.boot.auth.mail.MailService;
 import br.flower.boot.auth.mail.ValidyAccountMail;
+import br.flower.boot.auth.pessoa.PessoaService;
 import br.flower.boot.auth.security.core.AuthenticationSystemManagerUser;
 import br.flower.boot.auth.user.Usuario;
 import br.flower.boot.auth.user.UsuarioService;
 import br.flower.boot.auth.user.role.UserAuthRole;
 import br.flower.boot.auth.user.role.UserRoleEnum;
-import br.flower.boot.auth.util.CryptoUtil;
+import br.flower.boot.auth.util.CryptoAlgorithmAes;
 
 @Service
-public class AccountUsername implements AccountUsernameService{
+public class AccountUsernameServiceImp implements AccountUsernameService{
 	private static final long serialVersionUID = -4645022989274315704L;
-
-	private final String keyCrypt = "heheheh";
+	
+	// chave deve conter 16, 24 ou 32 bytes
+	private final String keyCrypt = "heheheh46450229892743112";
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private PessoaService pessoaService;
 	@Autowired 
 	private AuthenticationSystemManagerUser authenticationManager;
 	@Autowired 
@@ -37,21 +45,31 @@ public class AccountUsername implements AccountUsernameService{
 	}
 	
 	@Override
-	public Usuario registerUser(Usuario user, UserRoleEnum userRoleEnum) {
+	public UsuarioMensagemDto registerUser(Usuario user, UserRoleEnum userRoleEnum) {
 		usuarioService.verifyUsername(user.getUsername());
-		user.setUserAuthRole(Arrays.asList(
-				new UserAuthRole(UserRoleEnum.USER, UserRoleEnum.USER.getDescrRole()),
-				new UserAuthRole(userRoleEnum, userRoleEnum.getDescrRole())
-				));
+		pessoaService.verifyEmail(user.getPessoa().getEmail());
+		List<UserAuthRole> roles = new ArrayList<>();
+		roles.add(new UserAuthRole(UserRoleEnum.USER, UserRoleEnum.USER.getDescrRole()));
+		if(userRoleEnum != null) {
+			new UserAuthRole(userRoleEnum, userRoleEnum.getDescrRole());
+		}
+		user.setUserAuthRole(roles);
 		user.setDisabled(false);
 		user.setVerificado(false);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Usuario userNews = usuarioService.saveOrUpdate(user);
 		this.sendEmailAccountVerify(userNews);
-		return userNews;
+		return new UsuarioMensagemDto(user.getUsername(), "Criado com suscesso");
+	}
+	
+	@Override
+	public UsuarioMensagemDto registerUser(Usuario user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	private void sendEmailAccountVerify(Usuario userNews) {
-		mailService.sendMailTemplate(new ValidyAccountMail(userNews.getPerson().getEmail(),
+		mailService.sendMailTemplate(new ValidyAccountMail(userNews.getPessoa().getEmail(),
 				pathLink+mountVerifyAccount(userNews.getUserId().toString())));
 		
 	}
@@ -60,7 +78,7 @@ public class AccountUsername implements AccountUsernameService{
 		Calendar maxTime = Calendar.getInstance();
 		maxTime.add(Calendar.MINUTE, 30);
 		String userIdAndTime = userId+"&"+maxTime;
-		CryptoUtil cryptoUtil = new CryptoUtil();
+		CryptoAlgorithmAes cryptoUtil = new CryptoAlgorithmAes();
 		try {
 			return cryptoUtil.encrypt(keyCrypt, userIdAndTime);
 		} catch (Exception e) {
@@ -70,7 +88,7 @@ public class AccountUsername implements AccountUsernameService{
 	}
 	
 	public boolean validateEmailAccount(String emailParse) {
-		CryptoUtil cryptoUtil = new CryptoUtil();
+		CryptoAlgorithmAes cryptoUtil = new CryptoAlgorithmAes();
 		try {
 			String userIdAndTime = cryptoUtil.decrypt(keyCrypt, emailParse);
 			String dateTime = userIdAndTime.split("&")[1];
@@ -88,4 +106,6 @@ public class AccountUsername implements AccountUsernameService{
 		}
 		return false;
 	}
+
+
 }

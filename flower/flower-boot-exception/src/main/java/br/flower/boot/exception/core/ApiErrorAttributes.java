@@ -25,7 +25,7 @@ public class ApiErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(final WebRequest webRequest, final ErrorAttributeOptions options) {
         final Map<String, Object> defaultErrorAttributes = super.getErrorAttributes(webRequest, options);
         final ApiErrorMessage superHeroAppError = ApiErrorMessage.fromDefaultAttributeMap(
-                currentApiVersion, defaultErrorAttributes
+                currentApiVersion, sendReportUri, defaultErrorAttributes
         );
         return superHeroAppError.toAttributeMap();
     }

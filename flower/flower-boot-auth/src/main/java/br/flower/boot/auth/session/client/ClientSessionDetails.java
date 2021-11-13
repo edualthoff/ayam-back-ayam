@@ -23,7 +23,6 @@ import lombok.Data;
 @Table(name = "client_session_details")
 public class ClientSessionDetails implements Serializable{
 	private static final long serialVersionUID = 8543784125537746726L;
-
 	
 	@Id
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +34,7 @@ public class ClientSessionDetails implements Serializable{
 	private String devicetype;
 	@Column(name = "operation_system")
 	private String operationSystem;
-	@Column(name = "location")
+	@Column(name = "location_acess")
 	private String location;
 	@Column(name = "platform")
 	private String platform;

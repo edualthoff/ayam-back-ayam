@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity http) throws Exception {
 		http
 			.ignoring().antMatchers("/api/rest/**")
-			.antMatchers("/api/upload/**").antMatchers("/caracteristica/**")
+			.antMatchers("/api/upload/**")
+			.antMatchers("/caracteristica/**")
 			.antMatchers("/adm/caracteristica/**")
 			.antMatchers("/adm/produto/**")
 			.antMatchers("/adm/informativo/**")

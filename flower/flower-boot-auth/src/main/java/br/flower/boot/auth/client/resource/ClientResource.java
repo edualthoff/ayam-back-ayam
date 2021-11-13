@@ -30,13 +30,13 @@ public class ClientResource extends BaseImplementsSQL {
 	private UUID clientId;
 	@Column(name = "client_secret", columnDefinition = "uuid")
 	private UUID clientSecret;
-	@Column(name = "name")
+	@Column(name = "name_client")
 	private String name;
 	@Column(name = "grant_types")
 	private String grantTypes;
 	@Column(name = "redirect_url")
 	private String redirectUrl;
-	@Column(name = "scope")
+	@Column(name = "scope_client")
 	private String scope;
 	@Column(name = "domain_name")
 	private String domainName;
