@@ -62,6 +62,11 @@ public class AuthenticationRestController {
 		return this.accountUsernameService.registerUser(usuario, tipoUser);		
 	}
 	
+	@PostMapping("/usuario/verificar")
+	public ResponseAuthDto verificarUsuario() {
+		return null;
+	}
+	
 	@PostMapping("/refresh")
 	public ResponseAuthDto refreshToken() {
 		return null;

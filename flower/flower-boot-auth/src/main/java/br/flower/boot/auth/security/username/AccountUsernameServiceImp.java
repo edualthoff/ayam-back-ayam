@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,8 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	private AuthenticationSystemManagerUser authenticationManager;
 	@Autowired 
 	private MailService mailService;
-	private String pathLink = "localhost:8080/oatuh/usuario/verificar/";
+	@Value("${usuario.validar.email-link}")
+	private String pathLink;
 	
 	@Override
 	public Usuario login(String username, String password) {
@@ -70,8 +72,7 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	
 	private void sendEmailAccountVerify(Usuario userNews) {
 		mailService.sendMailTemplate(new ValidyAccountMail(userNews.getPessoa().getEmail(),
-				pathLink+mountVerifyAccount(userNews.getUserId().toString())));
-		
+				pathLink+mountVerifyAccount(userNews.getUserId().toString())));		
 	}
 	
 	private String mountVerifyAccount(String userId) {

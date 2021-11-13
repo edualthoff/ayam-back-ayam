@@ -25,7 +25,7 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 	static final String aud = "account";
 	
 	public JwtTokenAuthentic(String issDomainNameOrigin, String clientName, UUID sessionId, Usuario user) {
-		super(issDomainNameOrigin, clientName, typTipoToken, aud, user.getUserId(), expirationTime, sessionId);
+		super(issDomainNameOrigin, clientName, typTipoToken, aud, user.getPessoa().getPessoaId(), expirationTime, sessionId);
 		this.usuario = user;
 	}
 	
@@ -34,8 +34,8 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 		Map<String, Object> claims = new HashMap<>();
 		/** Claims util para a api */
 		claims.put(CLAIM_KEY_USERNAME, usuario.getUsername());
-		claims.put(CLAIM_KEY_NAME, usuario.getPessoa().getSobrenome());
-		claims.put(CLAIM_KEY_GIVEN_NAME, usuario.getPessoa().getNome());
+		claims.put(CLAIM_KEY_NAME, usuario.getPessoa().getNome());
+		claims.put(CLAIM_KEY_GIVEN_NAME, usuario.getPessoa().getSobrenome());
 		claims.put(CLAIM_KEY_VERIFIED, usuario.isVerificado());
 		// Verificar - Corrigir processo role
 		claims.put(CLAIM_KEY_ROLE_ACESS, mapearRoles());

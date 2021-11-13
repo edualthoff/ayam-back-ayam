@@ -46,7 +46,7 @@ public class ClientSessionDetails implements Serializable{
 	private String tokenRefresh;
 	
 	@ManyToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "user_id_auth_usuario", columnDefinition = "user_id")
+	@JoinColumn(name = "pessoa_id_tb_pessoa_auth_usuario", columnDefinition = "user_id")
 	private Usuario usuario;
 	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "client_id_auth_client_resource", columnDefinition = "client_id")
@@ -70,7 +70,7 @@ public class ClientSessionDetails implements Serializable{
 	public ClientSessionDetails(UUID sessionId, String tokenRefresh, Usuario usuario,
 			ClientResource oauthClientResource, Date dateCreated, Date dateLastExpire) {
 		super();
-		System.out.println("session cli "+usuario.getUserId());
+		System.out.println("session cli "+usuario.getPessoa().getPessoaId());
 		this.sessionId = sessionId;
 		this.tokenRefresh = tokenRefresh;
 		this.usuario = usuario;

@@ -15,12 +15,12 @@ public class JwtTokenRefresh extends JwtTokenMountAbstract {
 	static final String typTipoToken = "Refresh";
 	
 	public JwtTokenRefresh(String idToken, String issDomainNameOrigin, String clientName, UUID sessionId, Usuario usuario) {
-		super(idToken, issDomainNameOrigin, clientName, typTipoToken, issDomainNameOrigin, usuario.getUserId(), expirationTime, sessionId);
+		super(idToken, issDomainNameOrigin, clientName, typTipoToken, issDomainNameOrigin, usuario.getPessoa().getPessoaId(), expirationTime, sessionId);
 
 		//this.usuario = usuario;
 	}
 	public JwtTokenRefresh(String issDomainNameOrigin, String clientName, UUID sessionId, Usuario usuario) {
-		super(issDomainNameOrigin, clientName, typTipoToken, issDomainNameOrigin, usuario.getUserId(), expirationTime, sessionId);
+		super(issDomainNameOrigin, clientName, typTipoToken, issDomainNameOrigin, usuario.getPessoa().getPessoaId(), expirationTime, sessionId);
 
 		//this.usuario = usuario;
 	}

@@ -50,6 +50,6 @@ public class SocialMediaAuth implements Serializable{
 	private SocialMediaAuthId socialMediaAuthId;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id_auth_usuario", columnDefinition = "user_id")
+	@JoinColumn(name = "pessoa_id_tb_pessoa_auth_usuario", columnDefinition = "user_id")
 	private Usuario usuario;
 }
