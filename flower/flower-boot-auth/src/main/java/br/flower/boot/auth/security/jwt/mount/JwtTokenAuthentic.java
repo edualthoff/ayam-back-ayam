@@ -1,4 +1,4 @@
-package br.flower.boot.auth.security.jwt;
+package br.flower.boot.auth.security.jwt.mount;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,13 @@ import java.util.UUID;
 
 import br.flower.boot.auth.user.Usuario;
 
+/**
+ * Mapeia as Clains do token JWT
+ * @author edu
+ *
+ */
 public class JwtTokenAuthentic extends JwtTokenMountAbstract {
-	private static final long serialVersionUID = 2635530871450708442L;
+	private static final long serialVersionUID = 7724276352710804229L;
 
 	protected final static String CLAIM_KEY_USERNAME = "email";
 	protected final static String CLAIM_KEY_VERIFIED = "email_verified";
@@ -17,7 +22,8 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 	protected final static String CLAIM_KEY_GIVEN_NAME= "given_name";
 	protected final static String CLAIM_KEY_ROLE_ACESS = "roles";
 
-	private final static Long expirationTime = 600000L;
+	private final static Long expirationTime = JwtTokenSetting.getExpirationTimeRefreshToken();
+	
 	private Usuario usuario;
 	//private String allowrdOriginsCors;
 	

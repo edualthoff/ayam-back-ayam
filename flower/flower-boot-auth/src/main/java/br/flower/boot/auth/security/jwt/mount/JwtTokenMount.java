@@ -1,4 +1,4 @@
-package br.flower.boot.auth.security.jwt;
+package br.flower.boot.auth.security.jwt.mount;
 
 import java.io.Serializable;
 import java.util.Map;

@@ -1,8 +1,10 @@
-package br.flower.boot.auth.security.jwt;
+package br.flower.boot.auth.security.jwt.mount;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import br.flower.boot.auth.security.jwt.JwtTokenClaim;
 
 public abstract class JwtTokenMountAbstract implements JwtTokenMount {
 	private static final long serialVersionUID = -432469349355580781L;

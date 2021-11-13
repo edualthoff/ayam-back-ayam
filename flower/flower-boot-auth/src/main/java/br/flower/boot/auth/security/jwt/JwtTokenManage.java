@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import br.flower.boot.auth.client.SecurityClientResourceContext;
 import br.flower.boot.auth.security.core.ResponseAuthDto;
+import br.flower.boot.auth.security.jwt.mount.JwtTokenAuthentic;
+import br.flower.boot.auth.security.jwt.mount.JwtTokenMountAbstract;
+import br.flower.boot.auth.security.jwt.mount.JwtTokenRefresh;
 import br.flower.boot.auth.user.Usuario;
 
 @Component
