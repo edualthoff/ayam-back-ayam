@@ -42,7 +42,7 @@ public class Usuario extends BaseImplementsSQL {
 	@NotBlank
 	@Column(name = "username")
 	private String username;
-	@Column(name = "password")
+	@Column(name = "pass")
 	@NotBlank
 	private String password;
 	@Column(name = "verificado")

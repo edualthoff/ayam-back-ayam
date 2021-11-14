@@ -1,7 +1,7 @@
 package br.flower.boot.auth.security.username;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.flower.boot.auth.crypt.CryptAesUrlValueValidate;
+import br.flower.boot.auth.crypt.CryptValueValidate;
 import br.flower.boot.auth.mail.MailService;
 import br.flower.boot.auth.mail.ValidyAccountMail;
 import br.flower.boot.auth.pessoa.PessoaService;
@@ -18,15 +20,12 @@ import br.flower.boot.auth.user.Usuario;
 import br.flower.boot.auth.user.UsuarioService;
 import br.flower.boot.auth.user.role.UserAuthRole;
 import br.flower.boot.auth.user.role.UserRoleEnum;
-import br.flower.boot.auth.util.CryptoAlgorithmAes;
 
 @Service
 public class AccountUsernameServiceImp implements AccountUsernameService{
 	private static final long serialVersionUID = -4645022989274315704L;
 	
-	// chave deve conter 16, 24 ou 32 bytes
-	private final String keyCrypt = "heheheh46450229892743112";
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -37,7 +36,7 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	private AuthenticationSystemManagerUser authenticationManager;
 	@Autowired 
 	private MailService mailService;
-	@Value("${usuario.validar.email-link}")
+	@Value("${usuario.validar.email-link:null}")
 	private String pathLink;
 	
 	@Override
@@ -71,42 +70,33 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	}
 	
 	private void sendEmailAccountVerify(Usuario userNews) {
+		CryptValueValidate crypt = new CryptAesUrlValueValidate();
+		String value = null;
+		try {
+			value = crypt.encode(userNews.getUserId().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 		mailService.sendMailTemplate(new ValidyAccountMail(userNews.getPessoa().getEmail(),
-				pathLink+mountVerifyAccount(userNews.getUserId().toString())));		
+				pathLink+value));		
 	}
 	
-	private String mountVerifyAccount(String userId) {
-		Calendar maxTime = Calendar.getInstance();
-		maxTime.add(Calendar.MINUTE, 30);
-		String userIdAndTime = userId+"&"+maxTime;
-		CryptoAlgorithmAes cryptoUtil = new CryptoAlgorithmAes();
+		
+	public boolean validateEmailAccount(String emailParse) {
+		CryptValueValidate crypt = new CryptAesUrlValueValidate();
+		String value = null;
 		try {
-			return cryptoUtil.encrypt(keyCrypt, userIdAndTime);
+			value = crypt.decode(emailParse);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-	
-	public boolean validateEmailAccount(String emailParse) {
-		CryptoAlgorithmAes cryptoUtil = new CryptoAlgorithmAes();
-		try {
-			String userIdAndTime = cryptoUtil.decrypt(keyCrypt, emailParse);
-			String dateTime = userIdAndTime.split("&")[1];
-			Calendar maxTime = Calendar.getInstance();
-			System.out.println("Calender validate email account "+ dateTime+ " "+userIdAndTime);
-			if(maxTime.before(maxTime)) {
-				Usuario user = usuarioService.getById(UUID.fromString(userIdAndTime.split("&")[0]));
-				user.setVerificado(true);
-				usuarioService.saveOrUpdate(user);
-				return true;
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(value != null) {
+			Usuario user = usuarioService.getById(UUID.fromString(value));
+			user.setVerificado(true);
+			usuarioService.saveOrUpdate(user);
+			return true;			
 		}
 		return false;
 	}
-
 
 }

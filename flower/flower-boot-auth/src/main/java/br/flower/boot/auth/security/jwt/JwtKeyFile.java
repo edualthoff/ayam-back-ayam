@@ -5,7 +5,7 @@ import java.security.PublicKey;
 
 import org.springframework.stereotype.Component;
 
-import br.flower.boot.auth.util.KeyRsaApiConvert;
+import br.flower.boot.auth.crypt.util.KeyRsaApiConvert;
 
 @Component
 public class JwtKeyFile extends KeyRsaApiConvert{

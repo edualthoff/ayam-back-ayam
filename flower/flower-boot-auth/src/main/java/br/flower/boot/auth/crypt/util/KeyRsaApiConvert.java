@@ -1,4 +1,4 @@
-package br.flower.boot.auth.util;
+package br.flower.boot.auth.crypt.util;
 
 import java.io.IOException;
 import java.nio.file.Files;

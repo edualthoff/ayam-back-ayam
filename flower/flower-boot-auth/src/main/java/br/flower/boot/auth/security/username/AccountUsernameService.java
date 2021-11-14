@@ -10,5 +10,6 @@ public interface AccountUsernameService extends Serializable{
 	Usuario login(String username, String password);
 	UsuarioMensagemDto registerUser(Usuario user, UserRoleEnum userRoleEnum);
 	UsuarioMensagemDto registerUser(Usuario user);
-
+	boolean validateEmailAccount(String valueCrypt);
+	
 }

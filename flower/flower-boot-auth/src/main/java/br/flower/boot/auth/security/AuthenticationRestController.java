@@ -3,7 +3,9 @@ package br.flower.boot.auth.security;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,9 +64,10 @@ public class AuthenticationRestController {
 		return this.accountUsernameService.registerUser(usuario, tipoUser);		
 	}
 	
-	@PostMapping("/usuario/verificar")
-	public ResponseAuthDto verificarUsuario() {
-		return null;
+	@PutMapping("/usuario/verificar/{value}")
+	public Boolean verificarUsuario(@PathVariable(name = "value") String value) {
+		System.out.println("aq "+value);
+		return this.accountUsernameService.validateEmailAccount(value);
 	}
 	
 	@PostMapping("/refresh")

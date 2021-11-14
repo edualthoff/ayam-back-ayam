@@ -1,14 +1,14 @@
-package br.flower.boot.auth.util;
+package br.flower.boot.auth.crypt.util;
 
-import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+
 public class CryptoAlgorithmAes {
 
-	public String encrypt(String key, String str) throws Exception {
+	public byte[] encrypt(String key, String str) throws Exception {
 		SecretKey keySecurity = new SecretKeySpec(key.getBytes(), "AES");
 		Cipher ecipher = Cipher.getInstance("AES");
 		ecipher.init(Cipher.ENCRYPT_MODE, keySecurity);
@@ -20,18 +20,18 @@ public class CryptoAlgorithmAes {
 		byte[] enc = ecipher.doFinal(utf8);
 
 		// Encode bytes to base64 to get a string
-		return Base64.getEncoder().encodeToString(enc);
+		return enc;
 	}
 
-	public String decrypt(String key, String str) throws Exception {
+	public String decrypt(String key, byte[] bs) throws Exception {
 		SecretKey keySecurity = new SecretKeySpec(key.getBytes(), "AES");
 		Cipher dcipher = Cipher.getInstance("AES");
 		dcipher.init(Cipher.DECRYPT_MODE, keySecurity);
 		
 		// Decode base64 to get bytes
-		byte[] dec = Base64.getDecoder().decode(str);
+		// byte[] dec = bs.getBytes();
 
-		byte[] utf8 = dcipher.doFinal(dec);
+		byte[] utf8 = dcipher.doFinal(bs);
 
 		// Decode using utf-8
 		return new String(utf8, "UTF8");
