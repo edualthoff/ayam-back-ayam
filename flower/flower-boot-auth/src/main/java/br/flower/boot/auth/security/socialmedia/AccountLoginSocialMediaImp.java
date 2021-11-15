@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.flower.boot.auth.pessoa.Pessoa;
+import br.flower.boot.auth.pessoa.PessoaGeneroEnum;
 import br.flower.boot.auth.security.core.AuthenticationSystemManagerUser;
 import br.flower.boot.auth.socialmedia.SocialMediaAuth;
 import br.flower.boot.auth.socialmedia.SocialMediaAuth.SocialMediaAuthId;
@@ -73,7 +74,8 @@ public class AccountLoginSocialMediaImp implements AccountLoginSocialMedia, Seri
 		usuario.setUserAuthRole(Arrays.asList(new UserAuthRole(UserRoleEnum.USER, UserRoleEnum.USER.getDescrRole())));
 		Pessoa person = new Pessoa();
 		person.setEmail(socialMediaModel.getEmail());
-		person.setGenero(socialMediaModel.getGenero());
+		// Converte para o enum do sexo Pessoa
+		person.setGenero(PessoaGeneroEnum.fromGeneroValue(socialMediaModel.getGenero()));
 		person.setNome(socialMediaModel.getPrimeiroNome());
 		person.setSobrenome(socialMediaModel.getNome());
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");

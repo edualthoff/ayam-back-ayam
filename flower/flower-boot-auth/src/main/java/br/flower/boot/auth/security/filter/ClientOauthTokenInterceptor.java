@@ -23,7 +23,7 @@ public class ClientOauthTokenInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("Client interceptor");
-		securityClientResourceService.resourceAuthenticate(request.getHeader("client"));
+		securityClientResourceService.resourceAuthenticate(request.getHeader("Client"));
 		return securityClientResourceService.getContext().isPresent();
 	}
 }

@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,9 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import br.flower.boot.auth.base.BaseImplementsSQL;
 import br.flower.boot.auth.upload.UploadFile;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -41,9 +45,11 @@ public class Pessoa extends BaseImplementsSQL {
 	@Column(name = "sobrenome")
 	private String sobrenome;
 	@Column(name = "genero")
-	private String genero;
+	@Enumerated(EnumType.STRING)
+	private PessoaGeneroEnum genero;
 	@Column(name = "date_nascimento")
 	private Date dateNascimento;
+	@Setter(value = AccessLevel.NONE)
 	@Column(name = "telefone")
 	private String telefone;
 	@NotBlank
@@ -54,5 +60,10 @@ public class Pessoa extends BaseImplementsSQL {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "upload_id_tb_upload_img", columnDefinition = "upload_id")
 	private UploadFile fotoDaPessoa;
-
+	
+	
+	public void setTelefone(String telefone) {
+		this.telefone = telefone.replaceAll("[^0-9a-zA-Z:,]+", "");
+	}
+		
 }
