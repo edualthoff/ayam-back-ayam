@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,8 @@ import br.flower.boot.exception.type.client.ApiNotFoundException;
 
 @Service
 public class AccountUsernameServiceImp implements AccountUsernameService{
-	private static final long serialVersionUID = 1126311965927128544L;
-
+	private static final long serialVersionUID = 5594339258221183248L;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -38,8 +37,7 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	private AuthenticationSystemManagerUser authenticationManager;
 	@Autowired 
 	private MailService mailService;
-	@Value("${flower.usuario.validar.email-link:null}")
-	private String pathLink;
+
 	
 	@Override
 	public Usuario login(String username, String password) {

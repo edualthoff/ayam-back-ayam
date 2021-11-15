@@ -53,7 +53,7 @@ public class AuthenticationRestController {
 	}
 
 	/**
-	 * Cadastro de usuario - Caso o tipo for null cadastra usuario Padrao
+	 * Cadastro de usuario - Caso o {@value tipo} for null cadastra usuario Padrao
 	 * @param usuario
 	 * @param tipoUser
 	 * @return

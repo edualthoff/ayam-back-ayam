@@ -49,7 +49,7 @@ public class MailService {
 			        StandardCharsets.UTF_8.name());
 	        String htmlTemplate = getHtmlContent(mail);
 
-	        System.out.println("email send "+mail.toString());
+	        // System.out.println("email send "+mail.toString());
 	        // endereco de envio
 	        // helper.setFrom(mail.getFrom());
 	        // endereco de destino
