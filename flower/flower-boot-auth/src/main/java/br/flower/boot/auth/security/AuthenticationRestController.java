@@ -64,10 +64,26 @@ public class AuthenticationRestController {
 		return this.accountUsernameService.registerUser(usuario, tipoUser);		
 	}
 	
+	@PutMapping("/usuario")
+	public UsuarioMensagemDto atualizarUser(@Valid @RequestBody Usuario usuario) {
+		return this.accountUsernameService.registerUser(usuario);		
+	}
+	
 	@PutMapping("/usuario/verificar/{value}")
 	public Boolean verificarUsuario(@PathVariable(name = "value") String value) {
-		System.out.println("aq "+value);
 		return this.accountUsernameService.validateEmailAccount(value);
+	}
+
+	@PutMapping("/usuario/recovery")
+	public UsuarioMensagemDto recoveryVerifyPass(@RequestParam(name = "cod") String cod,
+			@RequestParam(name = "value") String value) {
+		return this.accountUsernameService.recoveryPass(cod, value);
+
+	}
+	
+	@PutMapping("/usuario/{value}/recovery")
+	public UsuarioMensagemDto recoveryPass(@PathVariable(name = "value") String value) {
+		return 	this.accountUsernameService.recoveryPass(value);
 	}
 	
 	@PostMapping("/refresh")

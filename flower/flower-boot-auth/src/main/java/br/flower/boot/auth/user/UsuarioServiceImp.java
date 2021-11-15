@@ -45,5 +45,10 @@ public class UsuarioServiceImp implements Serializable, UsuarioService {
 		}		
 		return true;
 	}
+
+	@Override
+	public boolean existUser(String userId) {
+		return this.usuarioRepository.existsById(UUID.fromString(userId));
+	}
 	
 }

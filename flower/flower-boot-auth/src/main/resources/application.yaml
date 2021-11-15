@@ -75,15 +75,20 @@ spring:
   #format:
   # br-sp: uuuu-MM-dd'T'HH:mm:ss+0300
    
-jwt:
-  token:
-   expiration-time: 600000
-   refresh:
-    expiration-time: 2592000000
-   
-usuario:
-  validar:
-    email-link: localhost:8282/oauth/usuario/verificar/
+flower:
+ settings:
+  jwt:
+   token:
+    expiration-time: 600000
+    refresh:
+     expiration-time: 2592000000
+  crypt:
+   validate:
+    expire: 0
+ usuario:
+  template-uri:
+   email-path: localhost:8282/oauth/usuario/verificar/
+   pass-path: localhost:8282/oauth/usuario/recovery
    
 api:
   sendreport:

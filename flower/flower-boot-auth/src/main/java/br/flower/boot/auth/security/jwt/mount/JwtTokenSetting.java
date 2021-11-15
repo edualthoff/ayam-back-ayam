@@ -13,8 +13,8 @@ public  class JwtTokenSetting {
 	//@Value("${jwt.token.refresh.expiration-time:2592000000L}")
 	private static Long expirationTimeRefreshToken;
 
-	JwtTokenSetting(@Value("${jwt.token.expiration-time:600000}") String expire, 
-			@Value("${jwt.token.refresh.expiration-time:2592000000}") String expireRefresh) {
+	JwtTokenSetting(@Value("${flower.settings.jwt.token.expiration-time:600000}") String expire, 
+			@Value("${flower.settings.jwt.token.refresh.expiration-time:2592000000}") String expireRefresh) {
 		JwtTokenSetting.expirationTimeRefreshToken = Long.parseLong(expireRefresh);
 		JwtTokenSetting.expirationTimeToken = Long.parseLong(expire);
 	}

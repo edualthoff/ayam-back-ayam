@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import br.flower.boot.auth.mail.view.MailTemplateMount;
+
 /**
  * Class para Enviar email @async 
  * @author edu

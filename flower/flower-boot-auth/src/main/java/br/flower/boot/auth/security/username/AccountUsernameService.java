@@ -11,5 +11,9 @@ public interface AccountUsernameService extends Serializable{
 	UsuarioMensagemDto registerUser(Usuario user, UserRoleEnum userRoleEnum);
 	UsuarioMensagemDto registerUser(Usuario user);
 	boolean validateEmailAccount(String valueCrypt);
-	
+	void updateUser(String idUser, Usuario user);
+	/* Recuperar passaword */
+	UsuarioMensagemDto recoveryPass(String idUser, String value);
+	UsuarioMensagemDto recoveryPass(String userEmail);
+
 }

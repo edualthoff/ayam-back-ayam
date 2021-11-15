@@ -11,4 +11,6 @@ public interface UsuarioService {
 	boolean existUsername(String username);
 	boolean verifyUsername(String username) throws ApiConflictDataException; 
 	Usuario getById(UUID username);
+	boolean existUser(String userId);
+
 }
