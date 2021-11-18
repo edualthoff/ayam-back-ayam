@@ -22,9 +22,11 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import br.flower.boot.exception.config.ApiMessageSourceError;
 import br.flower.boot.exception.msg.ApiErrorMessage;
 import br.flower.boot.exception.type.client.ApiBadRequestException;
+import br.flower.boot.exception.type.client.ApiConflictDataException;
 import br.flower.boot.exception.type.client.ApiNotFoundException;
 import br.flower.boot.exception.type.client.ApiUnsupportedMediaType;
 import br.flower.boot.exception.type.server.ApiInternalServerError;
+
 
 
 
@@ -114,6 +116,7 @@ public class ApiErrorControllerAdvice {
 	}
 	/* Fim */	
 	
+	// 404
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler({ ApiNotFoundException.class })
 	public ApiErrorMessage handleNotFoundException(ApiNotFoundException e) {
@@ -126,6 +129,19 @@ public class ApiErrorControllerAdvice {
 						);
 	}
 	
+	// 404
+	@ResponseStatus(code = HttpStatus.CONFLICT)
+	@ExceptionHandler({ ApiConflictDataException.class })
+	public ApiErrorMessage handleNotFoundException(ApiConflictDataException e) {
+		return new ApiErrorMessage(this.currentApiVersion, 
+						e.getErrorCode(),
+						e.getMessageError(), 
+						this.request.getRequestURI().toString(),
+						e.getMessage(), 
+						ApiMessageSourceError.toMessage("msg.padrao")
+						);
+	}
+	// 415
 	@ResponseStatus(code = HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 	@ExceptionHandler({ ApiUnsupportedMediaType.class })
 	public ApiErrorMessage handleNotFoundExceptionApiUnsupportedMediaType(ApiUnsupportedMediaType e) {

@@ -2,14 +2,12 @@ package br.aym.base.produto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
@@ -19,10 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import br.aym.base.file.FileInfo;
 import br.aym.base.file.FilesDirectoryEnum;
 import br.aym.base.file.FilesStorageService;
-import br.aym.base.produto.caracteristica.CaracteristicaProduto;
 import br.aym.base.upload.UploadFile;
-import br.flower.boot.exception.config.ApiMessageSourceError;
-import br.flower.boot.exception.type.client.ApiNotFoundException;
+import br.flower.boot.exception.core.ApiThrowGeneratedFacade;
 
 
 @Repository
@@ -49,11 +45,8 @@ public class ProdutoServiceImp implements ProdutoService {
 	@Override
 	public Produto update(Produto entities, MultipartFile[] file) {
 		if (file == null) {
-			System.out.println("file null");
 			return this.produtoRepository.saveAndFlush(entities);
 		} else {
-			System.out.println("file 2");
-
 			List<String> listPath = new ArrayList<>();	
 			// Deleta os Files antigo passando o Path caminho como parametro e remove da lista de upload o File marcado para remover.
 			entities.getUploadFile().forEach(x -> {
@@ -97,7 +90,8 @@ public class ProdutoServiceImp implements ProdutoService {
 	public Page<Produto> buscarAllPagination(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<Produto> pageResult = produtoRepository.findAll(pageRequest);
-		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
+		return pageResult;
 	}
 	
 	@Transactional
@@ -118,7 +112,9 @@ public class ProdutoServiceImp implements ProdutoService {
 		} else if(getAll == false && getFile == false) {
 			pageResult = produtoRepository.findPorStatusAndNomeContaingNullAllValue(status, keywords, pageRequest);
 		}
-		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+		// Trown - Gera erro caso o valor seja nulo ou empty
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
+		return pageResult;
 	}
 	
 
@@ -128,9 +124,9 @@ public class ProdutoServiceImp implements ProdutoService {
 		PageRequest pageRequest = PageRequest.of(page, size, Direction.fromString(sort), "nome");
 		Page<Produto> pageResult = this.produtoRepository.findPorStatusCaracteristicaProdutoNullAllValue
 				(status, caracteristicaProduto, pageRequest);
-		if(pageResult.getTotalElements() == 0 ) {
-			throw new ApiNotFoundException(ApiMessageSourceError.toMessage("not_found.error.list.msg"));
-		}
+		
+		// Trown - Gera erro caso o valor seja nulo ou empty
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
 		return pageResult;
 	}
 	
@@ -150,5 +146,4 @@ public class ProdutoServiceImp implements ProdutoService {
 		});
 		return listUp;
 	}
-
 }

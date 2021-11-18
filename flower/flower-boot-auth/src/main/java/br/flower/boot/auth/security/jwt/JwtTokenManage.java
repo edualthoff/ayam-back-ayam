@@ -24,11 +24,12 @@ public class JwtTokenManage implements TokenManage {
 	private HttpServletRequest httpServletRequest;
 	@Autowired
 	private SecurityClientResourceContext securityClientResourceContext;
-	
+	private String tokenType = "Bearer";
 	@Override
 	public ResponseAuthDto gerarToken(Usuario user, UUID sessionId) {
 		ResponseAuthDto responseAuthDto = new ResponseAuthDto();
-		responseAuthDto.setRefreshTorkn(this.jwtGenerateToken(new JwtTokenRefresh(
+		responseAuthDto.setTokenType(tokenType);
+		responseAuthDto.setRefreshToken(this.jwtGenerateToken(new JwtTokenRefresh(
 				//clientSessionDetails.getTokenRefresh(),
 				urlRequestOrigen(),
 				//"8e28fa6b-fe94-4508-8c87-546ada92d041",

@@ -19,8 +19,8 @@ public class JwtTokenDto implements Serializable{
 	private String sub;
 	// O id do token
 	private String jti;
-	/* Tipo de token Ex "Bearer", "Refresh" */
-	private String typ;
+	/* Tipo de token Ex "Access", "Refresh" */
+	private String type;
 	// (audience) Destinatário do token, representa a aplicação que irá usá-lo.
 	private String aud;
 	// Nome do cliente que solicitou o login

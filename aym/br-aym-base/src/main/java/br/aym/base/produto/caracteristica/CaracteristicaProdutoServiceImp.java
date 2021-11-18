@@ -6,15 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.aym.base.informativo.Informativo;
 import br.flower.boot.exception.config.ApiMessageSourceError;
+import br.flower.boot.exception.core.ApiThrowGeneratedFacade;
 import br.flower.boot.exception.type.client.ApiNotFoundException;
 
 
@@ -55,7 +54,9 @@ public class CaracteristicaProdutoServiceImp implements CaracteristicaProdutoSer
 	public Page<CaracteristicaProduto> buscarAllPagination(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<CaracteristicaProduto> pageResult = caracteristicaProdutoRepository.findAll(pageRequest);
-		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+		// Trown - Gera erro caso o valor seja nulo ou empty
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
+		return pageResult;
 	}
 
 	@Override
@@ -63,7 +64,9 @@ public class CaracteristicaProdutoServiceImp implements CaracteristicaProdutoSer
 			CaracteristicaProdutoEnum tipo,  Boolean status) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		Page<CaracteristicaProduto> pageResult = caracteristicaProdutoRepository.findByTipoAndStatus(tipo, status, pageRequest);
-		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+		// Trown - Gera erro caso o valor seja nulo ou empty
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
+		return pageResult;	
 	}
 
 	
@@ -84,7 +87,9 @@ public class CaracteristicaProdutoServiceImp implements CaracteristicaProdutoSer
 		} else {
 			pageResult = caracteristicaProdutoRepository.findByNomeContainingIgnoreCaseAndStatus(keywords, status, pageRequest);
 		}
-		return new PageImpl<>(pageResult.toList(), pageRequest, pageResult.getTotalElements());
+		// Trown - Gera erro caso o valor seja nulo ou empty
+		ApiThrowGeneratedFacade.throwEmptyOrNullValue(pageResult.toList());
+		return pageResult;
 	}
 	
 	/**

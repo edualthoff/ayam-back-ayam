@@ -22,7 +22,7 @@ import br.flower.boot.auth.session.client.ClientSessionDetails;
 import br.flower.boot.auth.session.client.ClientSessionDetailsService;
 import br.flower.boot.auth.user.Usuario;
 import br.flower.boot.exception.config.ApiMessageSourceError;
-import br.flower.boot.exception.type.ApiBadRequestException;
+import br.flower.boot.exception.type.client.ApiBadRequestException;
 import nl.basjes.parse.useragent.UserAgent;
 
 @Service
@@ -71,7 +71,7 @@ public class AuthenticationProviderFacade {
 		ResponseAuthDto response = tokenManage.gerarToken(user, sessionId);
 		// System.out.println("token "+ response.getToken());
 		// System.out.println("refresh "+response.getRefreshTorkn());
-		JwtTokenDto jwt = tokenManage.deserializeToken(response.getRefreshTorkn());
+		JwtTokenDto jwt = tokenManage.deserializeToken(response.getRefreshToken());
 		this.createSession(sessionId, jwt, user);
 
 		return response;

@@ -6,8 +6,8 @@ import lombok.Data;
 //@Component
 public class ResponseAuthDto {
 
-	
+	private String tokenType;
 	private String token;
-	private String refreshTorkn;
+	private String refreshToken;
 	
 }

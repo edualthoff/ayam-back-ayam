@@ -12,7 +12,7 @@ public class JwtTokenRefresh extends JwtTokenMountAbstract {
 	//private Usuario usuario;
 	//private String allowrdOriginsCors;
 
-	static final String typTipoToken = "Refresh";
+	static final String typTipoToken = JwtTypeTokenEnum.REFRESH.getType();
 	
 	public JwtTokenRefresh(String idToken, String issDomainNameOrigin, String clientName, UUID sessionId, Usuario usuario) {
 		super(idToken, issDomainNameOrigin, clientName, typTipoToken, issDomainNameOrigin, usuario.getPessoa().getPessoaId(),

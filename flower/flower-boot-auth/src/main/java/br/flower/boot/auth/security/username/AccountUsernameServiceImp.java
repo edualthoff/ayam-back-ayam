@@ -21,6 +21,7 @@ import br.flower.boot.auth.user.UsuarioService;
 import br.flower.boot.auth.user.role.UserAuthRole;
 import br.flower.boot.auth.user.role.UserRoleEnum;
 import br.flower.boot.exception.config.ApiMessageSourceError;
+import br.flower.boot.exception.type.client.ApiConflictDataException;
 import br.flower.boot.exception.type.client.ApiNotFoundException;
 
 @Service
@@ -41,13 +42,18 @@ public class AccountUsernameServiceImp implements AccountUsernameService{
 	
 	@Override
 	public Usuario login(String username, String password) {
-		authenticationManager.authenticantionSystem(username, password);
-		return usuarioService.getByEmail(username);
+		if(usuarioService.existUsername(username)) {
+			authenticationManager.authenticantionSystem(username, password);
+			return usuarioService.getByEmail(username);
+		}
+		throw new ApiNotFoundException(ApiMessageSourceError.toMessage("not_found.error.user.msg"));
 	}
-	
+	/*
+	 * Registrar novo usuario caso role for null - role padrao @Role User
+	 */
 	@Override
 	public UsuarioMensagemDto registerUser(Usuario user, UserRoleEnum userRoleEnum) {
-		usuarioService.verifyUsername(user.getUsername());
+		usuarioService.verifyUsernameExist(user.getUsername());
 		pessoaService.verifyEmail(user.getPessoa().getEmail());
 		List<UserAuthRole> roles = new ArrayList<>();
 		roles.add(new UserAuthRole(UserRoleEnum.USER, UserRoleEnum.USER.getDescrRole()));

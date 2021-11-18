@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
-import br.flower.boot.exception.type.ApiConflictDataException;
+import br.flower.boot.exception.type.client.ApiConflictDataException;
+
 
 @Service
 public class PessoaServiceImp implements Serializable, PessoaService {

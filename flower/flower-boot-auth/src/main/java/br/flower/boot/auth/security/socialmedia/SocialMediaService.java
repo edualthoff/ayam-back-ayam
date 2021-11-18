@@ -8,7 +8,7 @@ import br.flower.boot.auth.security.socialmedia.facebook.FacebookSocialMedia;
 import br.flower.boot.auth.security.socialmedia.google.GoogleSocialMedia;
 import br.flower.boot.auth.socialmedia.SocialMediaNameEnum;
 import br.flower.boot.exception.config.ApiMessageSourceError;
-import br.flower.boot.exception.type.ApiBadRequestException;
+import br.flower.boot.exception.type.client.ApiBadRequestException;
 
 @Service
 public class SocialMediaService implements Serializable{

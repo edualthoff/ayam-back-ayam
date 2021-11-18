@@ -9,8 +9,8 @@ public enum JwtTokenClaim {
 	CLAIM_KEY_ID("sub"),
 	// O id do token
 	CLAIM_KEY_ID_TOKEN("jti"),
-	/** Tipo de token Ex "Bearer", "Refresh" */
-	CLAIM_KEY_TYP("typ"),
+	/** Tipo de token Ex "Acess", "Refresh" */
+	CLAIM_KEY_TYP("type"),
 	// (audience) Destinatário do token, representa a aplicação que irá usá-lo.
 	CLAIM_KEY_AUD("aud"),
 	// Nome do cliente que solicitou o login

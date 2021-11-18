@@ -27,7 +27,7 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 	private Usuario usuario;
 	//private String allowrdOriginsCors;
 	
-	static final String typTipoToken = "Bearer";
+	static final String typTipoToken = JwtTypeTokenEnum.ACCESS.getType();
 	static final String aud = "account";
 	
 	public JwtTokenAuthentic(String issDomainNameOrigin, String clientName, UUID sessionId, Usuario user) {

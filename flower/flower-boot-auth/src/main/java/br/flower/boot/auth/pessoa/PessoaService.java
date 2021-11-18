@@ -2,7 +2,8 @@ package br.flower.boot.auth.pessoa;
 
 import java.util.UUID;
 
-import br.flower.boot.exception.type.ApiConflictDataException;
+import br.flower.boot.exception.type.client.ApiConflictDataException;
+
 
 public interface PessoaService {
 

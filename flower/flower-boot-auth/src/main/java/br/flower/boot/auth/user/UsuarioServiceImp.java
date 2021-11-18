@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 
-import br.flower.boot.exception.type.ApiConflictDataException;
+import br.flower.boot.exception.type.client.ApiConflictDataException;
+
 
 @Service
 public class UsuarioServiceImp implements Serializable, UsuarioService {
@@ -39,7 +40,7 @@ public class UsuarioServiceImp implements Serializable, UsuarioService {
 	}
 
 	@Override
-	public boolean verifyUsername(String username) throws ApiConflictDataException {
+	public boolean verifyUsernameExist(String username) throws ApiConflictDataException {
 		if(existUsername(username)) {
 			throw new ApiConflictDataException("Usuario já existe");
 		}		
