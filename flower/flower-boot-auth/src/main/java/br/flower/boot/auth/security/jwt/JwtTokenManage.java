@@ -51,7 +51,9 @@ public class JwtTokenManage implements TokenManage {
 	}
 	
 	private String jwtGenerateToken(JwtTokenMountAbstract jwtTokenMountAbstract) {
-		return jwtTokenUtil.generateToken(jwtTokenMountAbstract.implementsAllClaims(), jwtTokenMountAbstract.getIdToken(), jwtTokenMountAbstract.getExpirationTime());
+		return jwtTokenUtil.generateToken(
+				jwtTokenMountAbstract.implementsAllClaims(), 
+				jwtTokenMountAbstract.getExpirationTime());
 	}
 
 	@Override

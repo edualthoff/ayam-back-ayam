@@ -31,6 +31,8 @@ public class JwtTokenDto implements Serializable{
 	// Origem do token quem solicitou - CORS HTTP
 	@JsonProperty("allowed-origins")
 	private String allowedOrigins;
+	@JsonProperty("email_verified")
+	private String emailVerified;
 	// Data para expirar o token
 	private Long exp;
 	// Date que foi emitido o token

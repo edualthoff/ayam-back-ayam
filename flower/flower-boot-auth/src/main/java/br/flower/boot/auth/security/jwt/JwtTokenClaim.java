@@ -3,10 +3,10 @@ package br.flower.boot.auth.security.jwt;
 
 public enum JwtTokenClaim {
 
+	// O principal sobre o qual o token afirma informações, como o usuário de um aplicativo
+	CLAIM_KEY_SUB("sub"),
 	// O domínio da aplicação geradora do token
 	CLAIM_KEY_ISS("iss"),
-	//É o assunto do token, mas é muito utilizado para guarda o ID do usuário
-	CLAIM_KEY_ID("sub"),
 	// O id do token
 	CLAIM_KEY_ID_TOKEN("jti"),
 	/** Tipo de token Ex "Acess", "Refresh" */

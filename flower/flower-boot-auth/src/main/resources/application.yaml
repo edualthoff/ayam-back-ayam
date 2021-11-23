@@ -1,5 +1,6 @@
 
 server:
+  address: 10.0.0.102
   port: 8282
 ## Api Mercadolivre service
 
@@ -79,9 +80,9 @@ flower:
  settings:
   jwt:
    token:
-    expiration-time: 600000
+    expiration: 600000
     refresh:
-     expiration-time: 2592000000
+     expiration: 2592000000
   crypt:
    validate:
     expire: 0

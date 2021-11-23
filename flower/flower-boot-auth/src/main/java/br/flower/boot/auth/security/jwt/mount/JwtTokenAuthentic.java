@@ -22,7 +22,7 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 	protected final static String CLAIM_KEY_GIVEN_NAME= "given_name";
 	protected final static String CLAIM_KEY_ROLE_ACESS = "roles";
 
-	private final static Long expirationTime = JwtTokenSetting.getExpirationTimeRefreshToken();
+	private final static Long expirationTime = JwtTokenSetting.getExpirationTimeToken();
 	
 	private Usuario usuario;
 	//private String allowrdOriginsCors;
@@ -31,7 +31,8 @@ public class JwtTokenAuthentic extends JwtTokenMountAbstract {
 	static final String aud = "account";
 	
 	public JwtTokenAuthentic(String issDomainNameOrigin, String clientName, UUID sessionId, Usuario user) {
-		super(issDomainNameOrigin, clientName, typTipoToken, aud, user.getPessoa().getPessoaId(), expirationTime, sessionId);
+		super(issDomainNameOrigin, clientName, typTipoToken, aud, user.getUserId(), expirationTime, sessionId);
+		System.out.println("user "+user.getUserId());
 		this.usuario = user;
 	}
 	

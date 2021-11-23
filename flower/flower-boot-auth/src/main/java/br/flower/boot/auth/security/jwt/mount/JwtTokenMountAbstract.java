@@ -29,6 +29,8 @@ public abstract class JwtTokenMountAbstract implements JwtTokenMount {
 		this.subIdUser = subIdUser;
 		this.expiration = expiration;
 		this.sessionId = sessionId;
+		System.out.println("user abs "+subIdUser);
+
 	}
 
 	public JwtTokenMountAbstract(String idToken, String issDomainNameOrigin, String clientName, String typTipoToken, String aud,
@@ -41,6 +43,7 @@ public abstract class JwtTokenMountAbstract implements JwtTokenMount {
 		this.subIdUser = subIdUser;
 		this.expiration = expiration;
 		this.sessionId = sessionId;
+		System.out.println("user abs "+subIdUser);
 	}
 	
 	@Override
@@ -55,13 +58,13 @@ public abstract class JwtTokenMountAbstract implements JwtTokenMount {
 
 	public Map<String, Object> implementsAllClaims() {
 		Map<String, Object> claims = new HashMap<>();
+		claims.put(JwtTokenClaim.CLAIM_KEY_SUB.getClaim(), subIdUser);
 		claims.put(JwtTokenClaim.CLAIM_KEY_AUD.getClaim(), aud);
 		claims.put(JwtTokenClaim.CLAIM_KEY_TYP.getClaim(), typTipoToken);
 		claims.put(JwtTokenClaim.CLAIM_KEY_AZP.getClaim(), clientName);
 		claims.put(JwtTokenClaim.CLAIM_KEY_ISS.getClaim(), issDomainNameOrigin);
 		//claims.put(CLAIM_KEY_EXPIRED, expiration);
 		claims.put(JwtTokenClaim.CLAIM_KEY_ID_TOKEN.getClaim(), idToken);
-		claims.put(JwtTokenClaim.CLAIM_KEY_ID.getClaim(), subIdUser);
 		claims.put(JwtTokenClaim.CLAIM_KEY_SESSION_STATE.getClaim(), sessionId);
 		
 		if(implementsCustonsClaims() != null && !implementsCustonsClaims().isEmpty()) {
@@ -74,9 +77,4 @@ public abstract class JwtTokenMountAbstract implements JwtTokenMount {
 	private String generetedIdToken() {
 		return UUID.randomUUID().toString();
 	}
-	
-	public String getIdToken() {
-		return idToken;
-	}
-
 }

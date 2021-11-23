@@ -1,6 +1,7 @@
 package br.flower.boot.auth.session.client;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,12 @@ public class ClientSessionDetailsService implements Serializable {
 		return clientSessionDetailsRepository.save(clientSessionDetails);
 	}
 	
-	public ClientSessionDetails findById(String clientId) {
+	public ClientSessionDetails findById(UUID clientId) {
 		return clientSessionDetailsRepository.findById(clientId).orElse(null);
+	}
+	
+	public void removeSession(UUID idSession) {
+		 clientSessionDetailsRepository.deleteById(idSession);
 	}
 	
 }

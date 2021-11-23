@@ -89,14 +89,14 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	// gera token para user
-	public String generateToken(Map<String, Object> claims, String subject, Long expiration) {
-		return doGenerateToken(claims, subject, expiration);
+	public String generateToken(Map<String, Object> claims, Long expiration) {
+		return doGenerateToken(claims, expiration);
 	}
 
 	// Cria o token e devine tempo de expiração pra ele
-	private String doGenerateToken(Map<String, Object> claims, String subject, Long expiration) {
+	private String doGenerateToken(Map<String, Object> claims, Long expiration) {
 		try {
-			return Jwts.builder().setClaims(claims).setSubject(subject)
+			return Jwts.builder().setClaims(claims)
 					.setIssuedAt(new Date(System.currentTimeMillis())).setHeaderParam("typ", "JWT")
 					.setExpiration(new Date(System.currentTimeMillis() + expiration))
 					.signWith(JwtKeyFile.privateKey(), SignatureAlgorithm.RS256).compact();

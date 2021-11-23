@@ -2,6 +2,7 @@ package br.aym.base.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +23,8 @@ import br.flower.boot.exception.config.ApiMessageSourceError;
 import br.flower.boot.exception.type.server.ApiInternalServerError;
 
 @Service
-public class FilesStorageServiceImpl implements FilesStorageService {
+public class FilesStorageServiceImpl implements FilesStorageService, Serializable {
+	private static final long serialVersionUID = -2006216245007988902L;
 
 	private final Path root = Paths.get("uploads");
 
